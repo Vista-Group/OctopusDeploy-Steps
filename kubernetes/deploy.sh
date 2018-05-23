@@ -1,7 +1,6 @@
 #!/bin/bash
 
 namespace=$(get_octopusvariable "__NAMESPACE")
-replicas=$(get_octopusvariable "__REPLICAS")
 stack=$(get_octopusvariable "__STACK")
 context=$(get_octopusvariable "__CONTEXT")
 multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
