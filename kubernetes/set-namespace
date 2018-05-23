@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export releaseNumber=`get_octopusvariable "Octopus.Release.Number"`
 export namespace=`get_octopusvariable "namespace"`
 export context=`get_octopusvariable "__CONTEXT"`
