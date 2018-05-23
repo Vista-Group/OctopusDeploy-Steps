@@ -84,20 +84,14 @@ check_configmap "$configmap"
 after="$check_configmap_md5"
 
 if [ "$before" == "$after" ] && [ "$beforeDir" == "$afterDir" ] ; then
-### Requires an octopus upgrade to support these functions
-    # write_verbose "Configmap has not changed."
-    # write_verbose "Pods will not be removed."
-    echo "Configmap has not changed."
-    echo "Pods will not be removed."
+    write_verbose "Configmap has not changed."
+    write_verbose "Pods will not be removed."
 elif [ -z "$before" ]
 then
-### Requires an octopus upgrade to support these functions
-    # write_verbose "There was no previous config map."
-    # write_verbose "Pods do not need to be refreshed."
-    echo "There was no previous config map."
-    echo "Pods do not need to be refreshed."
+    write_verbose "There was no previous config map."
+    write_verbose "Pods do not need to be refreshed."
 else
-    echo "The Configmap has changed"
-    echo "Removing old pods..."
+    write_highlight "The Configmap has changed"
+    write_highlight "Removing old pods..."
     kubectl --context=$context delete pods -l stack=$stack,app=$app --namespace $namespace
 fi

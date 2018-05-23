@@ -31,6 +31,7 @@ cat $namespace.env
 
 
 # If the ingress is a multi cluster deployment
+# for example: ../ci/.. vs ../production/mx-test/..
 if [ "$multiClusterDeployment" == "true" ]; then
     envDir="$namespace/$context"
 else #Otherwise, do the standard single cluster deployment
@@ -38,10 +39,12 @@ else #Otherwise, do the standard single cluster deployment
 fi
 
 echo "Render Config for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -G -i $namespace.env -s NAMESPACE=$namespace -s REPLICAS=$replicas | cat -
+# $namespace.env contains the versions of the app to be deployed.
+# k8s-infrastructure.yaml contains variabls for the infrastructure. e.g. namespace, replicas
+kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -G -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | cat -
 
 echo "Apply Config for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -G -i $namespace.env -s NAMESPACE=$namespace -s REPLICAS=$replicas | kubectl --context=$context apply -f -
+kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -G -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | kubectl --context=$context apply -f -
 
 echo "Restart the pods if the previous step signaled a config change"
 ConfigrationMapsChanged=$(get_octopusvariable "Octopus.Action[Kubernetes ConfigMap].Output.ConfigrationMapsChanged")
@@ -49,6 +52,6 @@ echo "ConfigrationMapsChanged: $ConfigrationMapsChanged"
 
 if [ "$ConfigrationMapsChanged" == "true" ]; then
 	echo "ConfigMap has changed."
-    echo "remove old pods"
+    write_highlight "removing old pods..."
     kubectl --context=$context delete pods -l stack=$stack --namespace $namespace
 fi

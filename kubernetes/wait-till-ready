@@ -17,9 +17,7 @@ do
 	kubectl --context=$context get pods -l stack=$stack --namespace=$namespace -o json  | jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name'
   	OUTPUT="$(kubectl --context=$context get pods -l stack=$stack --namespace=$namespace -o json  | jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name' | wc -l)"
 	
-	### Requires an octopus upgrade to support these functions
-	# write_wait " Containers not in running state: ${OUTPUT} "
-	echo " Containers not in running state: ${OUTPUT} "
+	write_wait "Containers not in running state: ${OUTPUT}"
     
     #if all the containers are running exit the step
     if [ "$OUTPUT" = "0" ]; then
@@ -30,4 +28,3 @@ do
 done
 
 exit 1
-
