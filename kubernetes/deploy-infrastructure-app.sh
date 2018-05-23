@@ -1,15 +1,20 @@
 #!/bin/bash
 
-export releaseNumber=`get_octopusvariable "Octopus.Release.Number"`
-export namespace=`get_octopusvariable "__NAMESPACE"`
-export stack=`get_octopusvariable "__STACK"`
-export app=`get_octopusvariable "__APP"`
-export context=`get_octopusvariable "__CONTEXT"`
-export configmap=`get_octopusvariable "__CONFIGMAP"`
-export configmapDirectory=`get_octopusvariable "__CONFIGMAPDIRECTORY"`
-export multiClusterDeployment=`get_octopusvariable "__MULTICLUSTERDEPLOYMENT"`
+namespace=$(get_octopusvariable "__NAMESPACE")
+stack=$(get_octopusvariable "__STACK")
+app=$(get_octopusvariable "__APP")
+context=$(get_octopusvariable "__CONTEXT")
+configmap=$(get_octopusvariable "__CONFIGMAP")
+configmapDirectory=$(get_octopusvariable "__CONFIGMAPDIRECTORY")
+multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
+deployer=$(get_octopusvariable "Octopus.Deployment.CreatedBy.DisplayName")
+deployment_date=$(get_octopusvariable "Octopus.Deployment.Created")
+deployment_id=$(get_octopusvariable "Octopus.Deployment.Id")
+deployment_name=$(get_octopusvariable "Octopus.Deployment.Name")
+release_id=$(get_octopusvariable "Octopus.Release.Id")
+release_number=$(get_octopusvariable "Octopus.Release.Number")
 
-PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$releaseNumber/$namespace
+PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 echo "Using PackageTransferPath: $PackageRoot"
 
 # If the ingress is a multi cluster deployment
@@ -38,12 +43,12 @@ fi
 infraVariables=$PackageRoot/environments/$envDir/k8s-infrastructure.yaml
 echo "Using ifraVariables file: $infraVariables"
 
-echo "deployer: $(get_octopusvariable \"Octopus.Deployment.CreatedBy.DisplayName\")" >> $infraVariables
-echo "deployment_date: $(get_octopusvariable \"Octopus.Deployment.Created\")" >> $infraVariables
-echo "deployment_id: $(get_octopusvariable \"Octopus.Deployment.Id\")" >> $infraVariables
-echo "deployment_name: $(get_octopusvariable \"Octopus.Deployment.Name\")" >> $infraVariables
-echo "release_id: $(get_octopusvariable \"Octopus.Release.Id\")" >> $infraVariables
-echo "release_number: $(get_octopusvariable \"Octopus.Release.Number\")" >> $infraVariables
+echo "deployer: $deployer" >> $infraVariables
+echo "deployment_date: $deployment_date" >> $infraVariables
+echo "deployment_id: $deployment_id" >> $infraVariables
+echo "deployment_name: $deployment_name" >> $infraVariables
+echo "release_id: $release_id" >> $infraVariables
+echo "release_number: $release_number" >> $infraVariables
 
 #Invoke Kubernetes CLI for this particular environment
 ### Requires an octopus upgrade to support these functions
