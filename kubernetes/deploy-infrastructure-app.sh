@@ -7,12 +7,12 @@ context=$(get_octopusvariable "__CONTEXT")
 configmap=$(get_octopusvariable "__CONFIGMAP")
 configmapDirectory=$(get_octopusvariable "__CONFIGMAPDIRECTORY")
 multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
-vista_deployer=$(get_octopusvariable "Octopus.Deployment.CreatedBy.DisplayName")
-vista_deployment_date=$(get_octopusvariable "Octopus.Deployment.Created")
-vista_deployment_id=$(get_octopusvariable "Octopus.Deployment.Id")
-vista_deployment_name=$(get_octopusvariable "Octopus.Deployment.Name")
-vista_release_id=$(get_octopusvariable "Octopus.Release.Id")
-vista_release_number=$(get_octopusvariable "Octopus.Release.Number")
+deployer=$(get_octopusvariable "Octopus.Deployment.CreatedBy.DisplayName")
+deployment_date=$(get_octopusvariable "Octopus.Deployment.Created")
+deployment_id=$(get_octopusvariable "Octopus.Deployment.Id")
+deployment_name=$(get_octopusvariable "Octopus.Deployment.Name")
+release_id=$(get_octopusvariable "Octopus.Release.Id")
+release_number=$(get_octopusvariable "Octopus.Release.Number")
 
 PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 echo "Using PackageTransferPath: $PackageRoot"
