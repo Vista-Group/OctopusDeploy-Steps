@@ -76,10 +76,10 @@ echo "mx_release_id: $(get_octopusvariable \"Octopus.Release.Id\")" >> $infraVar
 #Invoke Kubernetes CLI for this particular environment
 ### Requires an octopus upgrade to support these functions
 echo  "Running kubectl for $envDir with following properties:"
-cat $ifraVariables
+cat $infraVariables
 
 echo "Apply manifest for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $ifraVariables | kubectl --context=$context apply -f -
+kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $infraVariables | kubectl --context=$context apply -f -
 
 # If rendering|applying the manifest fails, fail the step
 if [ "$?" = "1" ]; then
