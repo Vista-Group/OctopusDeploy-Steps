@@ -8,11 +8,6 @@ export context=`get_octopusvariable "__CONTEXT"`
 export configmap=`get_octopusvariable "__CONFIGMAP"`
 export configmapDirectory=`get_octopusvariable "__CONFIGMAPDIRECTORY"`
 export multiClusterDeployment=`get_octopusvariable "__MULTICLUSTERDEPLOYMENT"`
-export mx_deployment_id=`get_octopusvariable "Octopus.Deployment.Id"`
-export mx_deployment_date=`get_octopusvariable "Octopus.Deployment.Created"`
-export mx_deployer=`get_octopusvariable "Octopus.Deployment.CreatedBy.DisplayName"`
-export mx_deployment_name=`get_octopusvariable "Octopus.Deployment.Name"`
-export mx_release_id=`get_octopusvariable "Octopus.Release.Id"`
 
 check_configmap() {
     if [ -z $1 ]; then
@@ -68,27 +63,23 @@ else
     echo "Configmap of a directory is not required."
 fi
 
+ifraVariables=$PackageRoot/environments/$envDir/k8s-infrastructure.yaml
+echo "Using ifraVariables file: $PackageRoot"
+
+echo "mx_deployment_id: $(get_octopusvariable "Octopus.Deployment.Id)" >> $infraVariables
+echo "mx_deployment_date: $(get_octopusvariable "Octopus.Deployment.Created)" >> $infraVariables
+echo "mx_deployer: $(get_octopusvariable "Octopus.Deployment.CreatedBy.DisplayName)" >> $infraVariables
+echo "mx_deployment_name: $(get_octopusvariable "Octopus.Deployment.Name)" >> $infraVariables
+echo "mx_release_number: $(get_octopusvariable "Octopus.Release.Number)" >> $infraVariables
+echo "mx_release_id: $(get_octopusvariable "Octopus.Release.Id)" >> $infraVariables
+
 #Invoke Kubernetes CLI for this particular environment
 ### Requires an octopus upgrade to support these functions
 echo  "Running kubectl for $envDir with following properties:"
-cat $PackageRoot/environments/$envDir/k8s-infrastructure.yaml
-echo $mx_deployment_id
-echo $mx_deployment_date
-echo $mx_deployer
-echo $mx_deployment_name
-echo $releaseNumber
-echo $mx_release_id
+cat $ifraVariables
 
 echo "Apply manifest for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$app.yaml \
-    -G -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml \
-    -s mx_deployment_id=$mx_deployment_id \
-    -s mx_deployment_date=$mx_deployment_date \
-    -s mx_deployer=$mx_deployer \
-    -s mx_deployment_name=$mx_deployment_name \
-    -s mx_release_number=$releaseNumber \
-    -s mx_release_id=$mx_release_id \
-    | kubectl --context=$context apply -f -
+kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $ifraVariables | kubectl --context=$context apply -f -
 
 # If rendering|applying the manifest fails, fail the step
 if [ "$?" = "1" ]; then
