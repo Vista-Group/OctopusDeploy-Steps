@@ -63,8 +63,8 @@ else
     echo "Configmap of a directory is not required."
 fi
 
-ifraVariables=$PackageRoot/environments/$envDir/k8s-infrastructure.yaml
-echo "Using ifraVariables file: $PackageRoot"
+infraVariables=$PackageRoot/environments/$envDir/k8s-infrastructure.yaml
+echo "Using ifraVariables file: $infraVariables"
 
 echo "mx_deployment_id: $(get_octopusvariable \"Octopus.Deployment.Id\")" >> $infraVariables
 echo "mx_deployment_date: $(get_octopusvariable \"Octopus.Deployment.Created\")" >> $infraVariables
