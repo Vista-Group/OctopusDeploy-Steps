@@ -1,16 +1,16 @@
 #!/bin/bash
 
-export releaseNumber=`get_octopusvariable "Octopus.Release.Number"`
-export namespace=`get_octopusvariable "namespace"`
-export context=`get_octopusvariable "__CONTEXT"`
-export dockerRegistryEmail=`get_octopusvariable "dockerRegistryEmail"`
-export dockerRegistryPassword=`get_octopusvariable "dockerRegistryPassword"`
-export dockerRegistryServer=`get_octopusvariable "dockerRegistryServer"`
-export dockerRegistryUsername=`get_octopusvariable "dockerRegistryUsername"`
+release_number=$(get_octopusvariable "Octopus.Release.Number")
+namespace=$(get_octopusvariable "namespace")
+context=$(get_octopusvariable "__CONTEXT")
+dockerRegistryEmail=$(get_octopusvariable "dockerRegistryEmail")
+dockerRegistryPassword=$(get_octopusvariable "dockerRegistryPassword")
+dockerRegistryServer=$(get_octopusvariable "dockerRegistryServer")
+dockerRegistryUsername=$(get_octopusvariable "dockerRegistryUsername")
 
 # Get the configuration (docker compose and environ overrides) from the OctoPackage 'gtp_config'
 # Resolve docker templates for a particular stack from manifest
-PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$releaseNumber/$namespace
+PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 echo "Using PackageTransferPath: $PackageRoot"
 
 #TODO check for changes with md5sum or something

@@ -1,13 +1,13 @@
 #!/bin/bash
 
-export releaseNumber=`get_octopusvariable "Octopus.Release.Number"`
-export namespace=`get_octopusvariable "__NAMESPACE"`
-export stack=`get_octopusvariable "__STACK"`
-export context=`get_octopusvariable "__CONTEXT"`
+release_number=$(get_octopusvariable "Octopus.Release.Number")
+namespace=$(get_octopusvariable "__NAMESPACE")
+stack=$(get_octopusvariable "__STACK")
+context=$(get_octopusvariable "__CONTEXT")
 
 # Get the configuration (docker compose and environ overrides) from the OctoPackage 'gtp_config'
 # Resolve docker templates for a particular stack from manifest
-PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$releaseNumber/$namespace
+PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 echo "Using PackageTransferPath: $PackageRoot"
 
 echo "Wait for pods to be ready"

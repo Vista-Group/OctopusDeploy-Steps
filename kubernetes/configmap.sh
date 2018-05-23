@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export releaseNumber=`get_octopusvariable "Octopus.Release.Number"`
-export namespace=`get_octopusvariable "__NAMESPACE"`
-export configmap=`get_octopusvariable "__STACK"`
-export context=`get_octopusvariable "__CONTEXT"`
-export multiClusterDeployment=`get_octopusvariable "__MULTICLUSTERDEPLOYMENT"`
+release_number=$(get_octopusvariable "Octopus.Release.Number")
+namespace=$(get_octopusvariable "__NAMESPACE")
+configmap=$(get_octopusvariable "__STACK")
+context=$(get_octopusvariable "__CONTEXT")
+multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
 
 create_configmap() {
 	write_verbose "create configmap $1 in namespace $namespace"
@@ -14,7 +14,7 @@ create_configmap() {
 
 # Get the configuration (docker compose and environ overrides) from the OctoPackage 'gtp_config'
 # Resolve docker templates for a particular stack from manifest
-PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$releaseNumber/$namespace
+PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 write_verbose "Using PackageTransferPath: $PackageRoot"
 
 # If the ingress is a multi cluster deployment

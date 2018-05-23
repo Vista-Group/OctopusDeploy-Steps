@@ -1,14 +1,14 @@
 #!/bin/bash
 
-export releaseNumber=`get_octopusvariable "Octopus.Release.Number"`
-export namespace=`get_octopusvariable "__NAMESPACE"`
-export stack=`get_octopusvariable "__STACK"`
-export context=`get_octopusvariable "__CONTEXT"`
-export ingressType=`get_octopusvariable "__INGRESSTYPE"`
-export multiClusterDeployment=`get_octopusvariable "__MULTICLUSTERDEPLOYMENT"`
+release_number=$(get_octopusvariable "Octopus.Release.Number")
+namespace=$(get_octopusvariable "__NAMESPACE")
+stack=$(get_octopusvariable "__STACK")
+context=$(get_octopusvariable "__CONTEXT")
+ingressType=$(get_octopusvariable "__INGRESSTYPE")
+multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLO)MENT"`
 
 
-PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$releaseNumber/$namespace
+PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 echo "Using PackageTransferPath: $PackageRoot"
 
 #Invoke Kubernetes CLI for this particular environment
