@@ -70,18 +70,14 @@ fi
 
 #Invoke Kubernetes CLI for this particular environment
 ### Requires an octopus upgrade to support these functions
-write_verbose "Running Kubectl CLI compose for $envDir with following properties:"
-write_verbose `cat $PackageRoot/environments/$envDir/k8s-infrastructure.yaml`
-
-write_verbose  `kubetpl render $PackageRoot/k8s/$stack/$app.yaml \
-                -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml \
-                -s mx_deployment_id=$mx_deployment_id \
-                -s mx_deployment_date=$mx_deployment_date \
-                -s mx_deployer=$mx_deployer \
-                -s mx_deployment_name=$mx_deployment_name \
-                -s mx_release_number=$releaseNumber \
-                -s mx_release_id=$mx_release_id \
-                | kubectl --context=$context apply -f -`
+echo  "Running kubectl for $envDir with following properties:"
+cat $PackageRoot/environments/$envDir/k8s-infrastructure.yaml
+echo $mx_deployment_id
+echo $mx_deployment_date
+echo $mx_deployer
+echo $mx_deployment_name
+echo $releaseNumber
+echo $mx_release_id
 
 echo "Apply manifest for $stack stack"
 kubetpl render $PackageRoot/k8s/$stack/$app.yaml \
