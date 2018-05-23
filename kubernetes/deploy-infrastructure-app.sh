@@ -66,12 +66,12 @@ fi
 ifraVariables=$PackageRoot/environments/$envDir/k8s-infrastructure.yaml
 echo "Using ifraVariables file: $PackageRoot"
 
-echo "mx_deployment_id: $(get_octopusvariable "Octopus.Deployment.Id)" >> $infraVariables
-echo "mx_deployment_date: $(get_octopusvariable "Octopus.Deployment.Created)" >> $infraVariables
-echo "mx_deployer: $(get_octopusvariable "Octopus.Deployment.CreatedBy.DisplayName)" >> $infraVariables
-echo "mx_deployment_name: $(get_octopusvariable "Octopus.Deployment.Name)" >> $infraVariables
-echo "mx_release_number: $(get_octopusvariable "Octopus.Release.Number)" >> $infraVariables
-echo "mx_release_id: $(get_octopusvariable "Octopus.Release.Id)" >> $infraVariables
+echo "mx_deployment_id: $(get_octopusvariable \"Octopus.Deployment.Id\")" >> $infraVariables
+echo "mx_deployment_date: $(get_octopusvariable \"Octopus.Deployment.Created\")" >> $infraVariables
+echo "mx_deployer: $(get_octopusvariable \"Octopus.Deployment.CreatedBy.DisplayName\")" >> $infraVariables
+echo "mx_deployment_name: $(get_octopusvariable \"Octopus.Deployment.Name\")" >> $infraVariables
+echo "mx_release_number: $(get_octopusvariable \"Octopus.Release.Number\")" >> $infraVariables
+echo "mx_release_id: $(get_octopusvariable \"Octopus.Release.Id\")" >> $infraVariables
 
 #Invoke Kubernetes CLI for this particular environment
 ### Requires an octopus upgrade to support these functions
