@@ -41,10 +41,10 @@ fi
 echo "Render Config for $stack stack"
 # $namespace.env contains the versions of the app to be deployed.
 # k8s-infrastructure.yaml contains variabls for the infrastructure. e.g. namespace, replicas
-kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -G -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | cat -
+kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | cat -
 
 echo "Apply Config for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -G -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | kubectl --context=$context apply -f -
+kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | kubectl --context=$context apply -f -
 
 echo "Restart the pods if the previous step signaled a config change"
 ConfigrationMapsChanged=$(get_octopusvariable "Octopus.Action[Kubernetes ConfigMap].Output.ConfigrationMapsChanged")

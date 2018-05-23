@@ -22,8 +22,8 @@ if [ "$?" = "0" ]; then
 else
 	# create
 	echo "create configmap $configmap-config "
-    kubetpl render $PackageRoot/environments/namespace.yaml -G -s NAMESPACE=$namespace | cat -
-    kubetpl render $PackageRoot/environments/namespace.yaml -G -s NAMESPACE=$namespace | kubectl --context=$context create -f -
+    kubetpl render $PackageRoot/environments/namespace.yaml -s NAMESPACE=$namespace | cat -
+    kubetpl render $PackageRoot/environments/namespace.yaml -s NAMESPACE=$namespace | kubectl --context=$context create -f -
 fi
 
 echo "Check registry secret exists in $namespace"

@@ -25,8 +25,8 @@ cat $PackageRoot/environments/$envDir/k8s-infrastructure.yaml
 echo
 
 echo "Render Config for $stack stack, ingress type $ingressType"
-kubetpl render $PackageRoot/k8s/$stack/$stack-$ingressType.yaml.kubetpl-go -G -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | cat -
+kubetpl render $PackageRoot/k8s/$stack/$stack-$ingressType.yaml.kubetpl-go -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | cat -
 
 echo "Apply Config for $stack stack, ingress type $ingressType"
-kubetpl render $PackageRoot/k8s/$stack/$stack-$ingressType.yaml.kubetpl-go -G -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | kubectl --context=$context apply -f -
+kubetpl render $PackageRoot/k8s/$stack/$stack-$ingressType.yaml.kubetpl-go -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | kubectl --context=$context apply -f -
 

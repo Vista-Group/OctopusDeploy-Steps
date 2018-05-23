@@ -74,7 +74,7 @@ write_verbose "Running Kubectl CLI compose for $envDir with following properties
 write_verbose `cat $PackageRoot/environments/$envDir/k8s-infrastructure.yaml`
 
 write_verbose  `kubetpl render $PackageRoot/k8s/$stack/$app.yaml \
-                -G -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml \
+                -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml \
                 -s mx_deployment_id=$mx_deployment_id \
                 -s mx_deployment_datae=$mx_deployment_date \
                 -s mx_deployer=$mx_deployer \
