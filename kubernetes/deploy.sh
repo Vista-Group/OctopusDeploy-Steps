@@ -45,13 +45,3 @@ kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -i $namespac
 
 echo "Apply Config for $stack stack"
 kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -i $namespace.env -i $PackageRoot/environments/$envDir/k8s-infrastructure.yaml | kubectl --context=$context apply -f -
-
-echo "Restart the pods if the previous step signaled a config change"
-ConfigrationMapsChanged=$(get_octopusvariable "Octopus.Action[Kubernetes ConfigMap].Output.ConfigrationMapsChanged")
-echo "ConfigrationMapsChanged: $ConfigrationMapsChanged"
-
-if [ "$ConfigrationMapsChanged" == "true" ]; then
-	echo "ConfigMap has changed."
-    write_highlight "removing old pods..."
-    kubectl --context=$context delete pods -l stack=$stack --namespace $namespace
-fi
