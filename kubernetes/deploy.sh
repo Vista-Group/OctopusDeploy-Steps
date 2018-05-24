@@ -55,7 +55,7 @@ cat $infraVariables
 echo "Render Config for $stack stack"
 # $namespace.env contains the versions of the app to be deployed.
 # k8s-infrastructure.yaml contains variabls for the infrastructure. e.g. namespace, replicas
-kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -i $namespace.env -i $infraVariables | cat -
+kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml -i $namespace.env -i $infraVariables | cat -
 
 echo "Apply Config for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml.kubetpl-go -i $namespace.env -i $infraVariables | kubectl --context=$context apply -f -
+kubetpl render $PackageRoot/k8s/$stack/$stack-stack.yaml -i $namespace.env -i $infraVariables | kubectl --context=$context apply -f -
