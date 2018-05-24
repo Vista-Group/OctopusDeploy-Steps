@@ -6,7 +6,15 @@ configmap=$(get_octopusvariable "__STACK")
 context=$(get_octopusvariable "__CONTEXT")
 multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
 
-create_configmap() {
+roll_configmap() {
+	write_verbose "check existance of configmap $1"
+	kubectl --context=$context get configmap "$1" --namespace $namespace &>/dev/null
+	
+	if [ "$?" = "0" ]; then
+			write_verbose "Configmap $1 exists, removing..."
+			kubectl --context=$context delete configmap "$1" --namespace $namespace
+	fi
+
 	write_verbose "create configmap $1 in namespace $namespace"
 	write_verbose "For the env file at $2"
 	kubectl --context=$context create configmap "$1" --namespace $namespace --from-env-file=$2
@@ -25,5 +33,5 @@ else #Otherwise, do the standard single cluster deployment
 fi
 
 # Add the new config maps for local and global variables
-create_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
-create_configmap "global-$configmap-config" "$PackageRoot/environments/common.env"
+roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
+roll_configmap "global-$configmap-config" "$PackageRoot/environments/common.env"
