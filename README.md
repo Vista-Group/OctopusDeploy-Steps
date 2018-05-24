@@ -1,17 +1,17 @@
 # Octopus Deploy Step Templates
 
 Repository for automation of step templates that perform common tasks 
-for deployment on our container schedulers
+for deployment on our container schedulers, with Octopus Deploy.
 
 
 ## Kubernetes
 
-- configmap.k8s.sh create or replace a configmap
-- deploy-infrastructure-app.k8s.sh : deploy prometheus
-- deploy-ingress.k8s.sh : deploy an ingress
-- deploy.k8s.sh : create or replace a deployment
-- set-namespace.k8s.sh : select the kube configuration
-- wait-till-ready.k8s.sh : waits for readines state on containers
+- configmap.sh create or replace a configmap
+- deploy-infrastructure-app.sh : deploy prometheus/traefik/etcetera
+- deploy-ingress.sh : deploy an ingress
+- deploy.sh : create or replace a deployment
+- set-namespace.sh : select the kube configuration
+- wait-till-ready.sh : waits for readines state on containers
 
 
 ## Rancher
