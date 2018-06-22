@@ -5,7 +5,7 @@ namespace=$(get_octopusvariable "__NAMESPACE")
 stack=$(get_octopusvariable "__STACK")
 context=$(get_octopusvariable "__CONTEXT")
 ingressType=$(get_octopusvariable "__INGRESSTYPE")
-multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLO)MENT")
+multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
 
 
 PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
