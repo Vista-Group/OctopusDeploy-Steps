@@ -1,8 +1,8 @@
 #!/bin/bash
 
 release_number=$(get_octopusvariable "Octopus.Release.Number")
-namespace=$(get_octopusvariable "namespace")
-context=$(get_octopusvariable "cluster")
+namespace=$(get_octopusvariable "__NAMESPACE")
+context=$(get_octopusvariable "__CONTEXT")
 secret_name="traefik-tls-cert"
 
 # Get the configuration (docker compose and environ overrides) from the OctoPackage 'gtp_config'
