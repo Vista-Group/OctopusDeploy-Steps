@@ -26,11 +26,17 @@ PackageRoot=$HOME/.octopus/OctopusServer/Work/tools/$release_number/$namespace
 write_verbose "Using PackageTransferPath: $PackageRoot"
 
 # If the ingress is a multi cluster deployment
-if [ "$multiClusterDeployment" == "true" ]; then
+if [ "$multiClusterDeployment" == "true" ] || [ "$multiClusterDeployment" == "True" ] ; then
+    echo "The deployment has common/shared config for more than one cluster: $multiClusterDeployment"
     envDir="$namespace/$context"
+    
 else #Otherwise, do the standard single cluster deployment
+    echo "The deployment has particular config for each cluster: $multiClusterDeployment"
     envDir="$namespace"
 fi
+
+echo "Common ConfigMap will be created from : environments/common.env"
+echo "Stack  ConfigMap will be created from : environments/$envDir/$configmap.env"
 
 # Add the new config maps for local and global variables
 roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
