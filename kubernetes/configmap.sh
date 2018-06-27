@@ -35,3 +35,4 @@ fi
 # Add the new config maps for local and global variables
 roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
 roll_configmap "global-$configmap-config" "$PackageRoot/environments/common.env"
+roll_configmap "common-$configmap-config" "$PackageRoot/environments/common.env"
