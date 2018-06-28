@@ -25,16 +25,13 @@ else
 	CERT=$(get_octopusvariable "OriginCertificate")
 	echo "Cert Name (Octopus Library): $CERT"
 
-	echo ">>>>> KEY SECTION"
     KEY=$(get_octopusvariable "OriginCertificate.PrivateKeyPem")
-    
+    echo "$KEY" > $PackageRoot/tls.key
 	# check private key with openssl
 	openssl rsa -in $PackageRoot/tls.key -check
 
-	echo ">>>>> KEY SECTION"
-    #CERT=$(get_octopusvariable "OriginCertificate.RawOriginal")
     CERT=$(get_octopusvariable "OriginCertificate.CertificatePem")
-    
+    echo "$CERT" > $PackageRoot/tls.crt
     # check certificate with openssl
     openssl x509 -in $PackageRoot/tls.crt -text -noout
     
