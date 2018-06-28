@@ -12,7 +12,7 @@ echo "Using PackageTransferPath: $PackageRoot"
 
 echo "Wait for pods to be ready"
 
-for i in {1..10}
+for i in {1..15}
 do
 	kubectl --context=$context get pods -l stack=$stack --namespace=$namespace -o json  | jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name'
   	OUTPUT="$(kubectl --context=$context get pods -l stack=$stack --namespace=$namespace -o json  | jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name' | wc -l)"
@@ -24,7 +24,7 @@ do
     	exit 0
 	fi
     
-  	sleep 10s
+  	sleep 15s
 done
 
 exit 1
