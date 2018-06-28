@@ -24,7 +24,7 @@ do
     	exit 0
 	fi
     
-  	sleep 10s
+  	sleep 20s
 done
 
 exit 1
