@@ -35,10 +35,11 @@ else #Otherwise, do the standard single cluster deployment
     envDir="$namespace"
 fi
 
-echo "Common ConfigMap will be created from : environments/common.env"
-echo "Stack  ConfigMap will be created from : environments/$envDir/$configmap.env"
+echo "Common  ConfigMap will be created from : environments/common.env"
+echo "Environ ConfigMap will be created from : environments/$envDir/$namespace.env"
+echo "Stack   ConfigMap will be created from : environments/$envDir/$configmap.env"
 
-# Add the new config maps for local and global variables
-roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
+# Add the new config maps for and global, environ and stack variables
 roll_configmap "global-$configmap-config" "$PackageRoot/environments/common.env"
-roll_configmap "common-$configmap-config" "$PackageRoot/environments/common.env"
+roll_configmap "env-$configmap-config" "$PackageRoot/environments/$envDir/$namespace.env"
+roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
