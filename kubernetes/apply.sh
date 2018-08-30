@@ -19,7 +19,8 @@ echo "Using PackageTransferPath: $PackageRoot"
 
 # If the ingress is a multi cluster deployment
 # for example: ../ci/.. vs ../production/mx-test/..
-if [ "$multiClusterDeployment" == "true" ]; then
+echo "The deployment has particular config for each cluster: $multiClusterDeployment"
+if [ "$multiClusterDeployment" == "true" ] || [ "$multiClusterDeployment" == "True" ] ; then
     envDir="$namespace/$context"
     echo "Using multiClusterDeployment: $envDir"
 else #Otherwise, do the standard single cluster deployment
