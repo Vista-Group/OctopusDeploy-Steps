@@ -31,6 +31,6 @@ kubectl --context=$context get secret regsecret --namespace "$namespace" &>/dev/
 if [ "$?" = "0" ]; then
     echo "Registry Secret regsecret already exists in $namespace"
 else
-    write-highlight "Registry Secret does not currently exist in $namespace. Adding..."
+    write_highlight "Registry Secret does not currently exist in $namespace. Adding..."
     kubectl --context=$context create secret docker-registry regsecret --docker-server=$dockerRegistryServer --docker-username=$dockerRegistryUsername --docker-password=$dockerRegistryPassword --docker-email=$dockerRegistryEmail --namespace "$namespace"
 fi
