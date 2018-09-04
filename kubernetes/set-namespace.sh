@@ -21,7 +21,7 @@ if [ "$?" = "0" ]; then
 		echo "namespace $namespace already exists "
 else
 	# create
-	echo "create configmap $configmap-config "
+	echo "create $namespace namespace"
     kubetpl render $PackageRoot/environments/namespace.yaml -s NAMESPACE=$namespace | cat -
     kubetpl render $PackageRoot/environments/namespace.yaml -s NAMESPACE=$namespace | kubectl --context=$context create -f -
 fi
