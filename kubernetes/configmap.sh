@@ -40,6 +40,11 @@ echo "Environ ConfigMap will be created from : environments/$envDir/$namespace.e
 echo "Stack   ConfigMap will be created from : environments/$envDir/$configmap.env"
 
 # Add the new config maps for and global, environ and stack variables
+#THIS config-maps will be eventually deprecated
 roll_configmap "global-$configmap-config" "$PackageRoot/environments/common.env"
-roll_configmap "env-$configmap-config" "$PackageRoot/environments/$envDir/$namespace.env"
 roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
+
+#THIS config-maps maps will replace the ones above
+roll_configmap "common-$namespace-config" "$PackageRoot/environments/common.env"
+roll_configmap "env-$configmap-config" "$PackageRoot/environments/$envDir/$namespace.env"
+roll_configmap "$configmap-config" "$PackageRoot/services/$configmap.env"
