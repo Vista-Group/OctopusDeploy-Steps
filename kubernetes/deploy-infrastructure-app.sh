@@ -50,10 +50,12 @@ echo "vista_deployment_name: $deployment_name" >> $infraVariables
 echo "vista_release_id: $release_id" >> $infraVariables
 echo "vista_release_number: $release_number" >> $infraVariables
 
-new_octopusartifact $infraVariables $app-$context.yaml
+kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $infraVariables > $app-$stack-$context.yaml
+
+new_octopusartifact $app-$stack-$context.yaml $app-$stack-$context.yaml
 
 echo "Apply manifest for $stack stack"
-kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $infraVariables | kubectl --context=$context apply -f -
+kubectl --context=$context apply -f $app-$stack-$context.yaml
 
 # If rendering|applying the manifest fails, fail the step
 if [ "$?" = "1" ]; then
