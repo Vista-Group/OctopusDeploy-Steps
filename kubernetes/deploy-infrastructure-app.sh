@@ -50,6 +50,8 @@ echo "vista_deployment_name: $deployment_name" >> $infraVariables
 echo "vista_release_id: $release_id" >> $infraVariables
 echo "vista_release_number: $release_number" >> $infraVariables
 
+new_octopusartifact $infraVariables $app-$context.yaml
+
 echo "Apply manifest for $stack stack"
 kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $infraVariables | kubectl --context=$context apply -f -
 
