@@ -7,17 +7,23 @@ context=$(get_octopusvariable "__CONTEXT")
 multiClusterDeployment=$(get_octopusvariable "__MULTICLUSTERDEPLOYMENT")
 
 roll_configmap() {
-	write_verbose "check existance of configmap $1"
-	kubectl --context=$context get configmap "$1" --namespace $namespace &>/dev/null
+	echo "check existance of env file $2"
+	if [ ! -f "$2" ]; then
+    	echo "No env file at $2 no configmap"
+	else        
+		write_verbose "check existance of configmap $1"
+		kubectl --context=$context get configmap "$1" --namespace $namespace &>/dev/null
 	
-	if [ "$?" = "0" ]; then
-			write_verbose "Configmap $1 exists, removing..."
-			kubectl --context=$context delete configmap "$1" --namespace $namespace
-	fi
+		if [ "$?" = "0" ]; then
+				write_verbose "Configmap $1 exists, removing..."
+				kubectl --context=$context delete configmap "$1" --namespace $namespace
+		fi
 
-	write_verbose "create configmap $1 in namespace $namespace"
-	write_verbose "For the env file at $2"
-	kubectl --context=$context create configmap "$1" --namespace $namespace --from-env-file=$2
+		write_verbose "create configmap $1 in namespace $namespace"
+		write_verbose "For the env file at $2"
+		kubectl --context=$context create configmap "$1" --namespace $namespace --from-env-file=$2
+        
+	fi        
 }
 
 # Get the configuration (docker compose and environ overrides) from the OctoPackage 'gtp_config'
@@ -46,8 +52,8 @@ roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap
 
 #THIS config-maps maps will replace the ones above
 roll_configmap "common-$namespace-config" "$PackageRoot/environments/common.env"
-roll_configmap "stack-$configmap-config" "$PackageRoot/environments/$envDir/$namespace.env"
+roll_configmap "stack-$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
 
 for fullfile in $PackageRoot/services/*.env; do
-      roll_configmap "$(basename "$fullfile" .env)-config" "$fullfile"
+      roll_configmap "service-$(basename "$fullfile" .env)-config" "$fullfile"
 done
