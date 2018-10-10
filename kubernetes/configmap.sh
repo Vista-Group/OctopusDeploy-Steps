@@ -52,5 +52,5 @@ roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap
 
 #THIS config-maps maps will replace the ones above
 roll_configmap "common-$namespace-config" "$PackageRoot/environments/common.env"
-roll_configmap "env-$namespace-config" "$PackageRoot/environments/$envDir/$namespace.env"
+roll_configmap "environ-$namespace-config" "$PackageRoot/environments/$envDir/$namespace.env"
 roll_configmap "stack-$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
