@@ -42,8 +42,8 @@ else #Otherwise, do the standard single cluster deployment
 fi
 
 echo "Common  ConfigMap  will be created from: environments/common.env"
+echo "Environ  ConfigMap  will be created from: environments/common.env"
 echo "Stack   ConfigMap  will be created from: environments/$envDir/$configmap.env"
-echo "Service ConfigMaps will be created from: services/*.env"
 
 # Add the new config maps for and global, environ and stack variables
 #THIS config-maps will be eventually deprecated
@@ -52,8 +52,5 @@ roll_configmap "$configmap-config" "$PackageRoot/environments/$envDir/$configmap
 
 #THIS config-maps maps will replace the ones above
 roll_configmap "common-$namespace-config" "$PackageRoot/environments/common.env"
+roll_configmap "env-$namespace-config" "$PackageRoot/environments/$envDir/$namespace.env"
 roll_configmap "stack-$configmap-config" "$PackageRoot/environments/$envDir/$configmap.env"
-
-for fullfile in $PackageRoot/services/*.env; do
-      roll_configmap "service-$(basename "$fullfile" .env)-config" "$fullfile"
-done
