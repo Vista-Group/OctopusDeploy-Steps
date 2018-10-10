@@ -41,10 +41,6 @@ else #Otherwise, do the standard single cluster deployment
     envDir="$namespace"
 fi
 
-echo "Common  ConfigMap  will be created from: environments/common.env"
-echo "Environ  ConfigMap  will be created from: environments/common.env"
-echo "Stack   ConfigMap  will be created from: environments/$envDir/$configmap.env"
-
 # Add the new config maps for and global, environ and stack variables
 #THIS config-maps will be eventually deprecated
 roll_configmap "global-$configmap-config" "$PackageRoot/environments/common.env"
