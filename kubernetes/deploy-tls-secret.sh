@@ -3,6 +3,10 @@
 release_number=$(get_octopusvariable "Octopus.Release.Number")
 namespace=$(get_octopusvariable "__NAMESPACE")
 context=$(get_octopusvariable "__CONTEXT")
+
+#defaults to OriginCertificate
+certificate_name=$(get_octopusvariable "__CERTIFICATE_NAME")
+
 # defaults to "traefik-tls-cert"
 secret_name=$(get_octopusvariable "__SECRET_NAME")
 
@@ -22,15 +26,15 @@ else
 
     # This assumes the Octopus certificate was created 
     # from a PEM Cert + PrivateKey
-    CERT=$(get_octopusvariable "__CERTIFICATE")
-    echo "Cert Name (Octopus Library): $CERT.Name"
+    CERTNAME=$(get_octopusvariable "$certificate_name".Name)
+    echo "Cert Name (In Octopus Library): $CERTNAME"
 
-    KEY=$CERT.PrivateKeyPem
+    KEY=$(get_octopusvariable "$certificate_name".PrivateKeyPem)
     echo "$KEY" > $PackageRoot/tls.key
     # check private key with openssl
     openssl rsa -in $PackageRoot/tls.key -check
 
-    CERT=$CERT.CertificatePem
+    CERT=$(get_octopusvariable "$certificate_name".CertificatePem)
     echo "$CERT" > $PackageRoot/tls.crt
     # check certificate with openssl
     openssl x509 -in $PackageRoot/tls.crt -text -noout
