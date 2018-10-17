@@ -23,14 +23,14 @@ else
     # This assumes the Octopus certificate was created 
     # from a PEM Cert + PrivateKey
     CERT=$(get_octopusvariable "__CERTIFICATE")
-    echo "Cert Name (Octopus Library): $CERT"
+    echo "Cert Name (Octopus Library): $CERT.Name"
 
-    KEY=$(get_octopusvariable "__CERTIFICATE.PrivateKeyPem")
+    KEY=$CERT.PrivateKeyPem
     echo "$KEY" > $PackageRoot/tls.key
     # check private key with openssl
     openssl rsa -in $PackageRoot/tls.key -check
 
-    CERT=$(get_octopusvariable "__CERTIFICATE.CertificatePem")
+    CERT=$CERT.CertificatePem
     echo "$CERT" > $PackageRoot/tls.crt
     # check certificate with openssl
     openssl x509 -in $PackageRoot/tls.crt -text -noout
