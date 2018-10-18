@@ -30,14 +30,14 @@ else
     echo "Cert Name (In Octopus Library): $CERTNAME"
 
     KEY=$(get_octopusvariable "$certificate_name".PrivateKeyPem)
-    echo "$KEY" > $PackageRoot/"$certificate_name".key
+    echo "$KEY" > $PackageRoot/tls.key
     # check private key with openssl
-    openssl rsa -in $PackageRoot/"$certificate_name".key -check
+    openssl rsa -in $PackageRoot/tls.key -check
 
     CERT=$(get_octopusvariable "$certificate_name".CertificatePem)
-    echo "$CERT" > $PackageRoot/"$certificate_name".crt
+    echo "$CERT" > $PackageRoot/tls.crt
     # check certificate with openssl
-    openssl x509 -in $PackageRoot/"$certificate_name".crt -text -noout
+    openssl x509 -in $PackageRoot/tls.crt -text -noout
     
-    kubectl --context=$context create secret tls "$secret_name" --cert=$PackageRoot/"$certificate_name".crt --key=$PackageRoot/"$certificate_name".key --namespace "$namespace"
+    kubectl --context=$context create secret tls "$secret_name" --cert=$PackageRoot/tls.crt --key=$PackageRoot/tls.key --namespace "$namespace"
 fi
