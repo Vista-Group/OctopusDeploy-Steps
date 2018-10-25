@@ -50,7 +50,11 @@ echo "vista_deployment_name: $deployment_name" >> $infraVariables
 echo "vista_release_id: $release_id" >> $infraVariables
 echo "vista_release_number: $release_number" >> $infraVariables
 
-kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $infraVariables > $app-$stack-$context.yaml
+# Support arbitrary KV pairs from Octopus, such as traefik secret variables
+KeyValuePairs=$(get_octopusvariable "__KEY_VALUE_PAIRS")
+echo "Extra Config KeyValuePairs $KeyValuePairs"
+
+kubetpl render $PackageRoot/k8s/$stack/$app.yaml -i $infraVariables -s $KeyValuePairs > $app-$stack-$context.yaml
 
 # new_octopusartifact $app-$stack-$context.yaml $app-$stack-$context.yaml
 
