@@ -39,5 +39,11 @@ else
     # check certificate with openssl
     openssl x509 -in $PackageRoot/tls.crt -text -noout
     
+    openssl x509 -in $PackageRoot/cacerts/DigiCert_High_Assurance_EV_Root_CA.crt -text -noout
+    openssl x509 -in $PackageRoot/cacerts/DigiCert_SHA2_High_Assurance_Server_CA.crt -text -noout
+
+	cat $PackageRoot/cacerts/DigiCert_High_Assurance_EV_Root_CA.crt >> $PackageRoot/tls.crt
+    cat $PackageRoot/cacerts/DigiCert_SHA2_High_Assurance_Server_CA.crt >> $PackageRoot/tls.crt
+    
     kubectl --context=$context create secret tls "$secret_name" --cert=$PackageRoot/tls.crt --key=$PackageRoot/tls.key --namespace "$namespace"
 fi
