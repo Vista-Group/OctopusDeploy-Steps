@@ -43,7 +43,7 @@ else
     openssl x509 -in $PackageRoot/cacerts/DigiCert_SHA2_High_Assurance_Server_CA.crt -text -noout
 
     traffic_type=$(get_octopusvariable "__TRAFFIC_TYPE")
-    if ["$traffic_type" == "api"]
+    if [ "$traffic_type" == "api" ]
     then
         echo "adding the full chain of certs"
         cat $PackageRoot/cacerts/DigiCert_High_Assurance_EV_Root_CA.crt >> $PackageRoot/tls.crt
