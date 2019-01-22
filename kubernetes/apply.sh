@@ -74,17 +74,17 @@ echo "Using ifraVariables file: $infraVariables (if available)"
 
 if [ ! -f $infraVariables ]; then
     echo "Running Kubectl CLI compose without infrastructure settings file available!"
-	kubetpl render $PackageRoot/k8s/$stack/$ConfigurationFilename --debug -i $namespace.env -s $KeyValuePairs > $PackageRoot/rendered-$namespace-$stack-deployment.yaml    
+	kubetpl render $PackageRoot/k8s/$stack/$ConfigurationFilename --debug -i $namespace.env -s $KeyValuePairs > $PackageRoot/rendered-$namespace-$stack-$ConfigurationFilename    
 else
 	echo "Running Kubectl CLI compose with following infrastructure settings file content:"
 	cat $infraVariables
 
-	kubetpl render $PackageRoot/k8s/$stack/$ConfigurationFilename --debug -i $namespace.env -i $infraVariables -s $KeyValuePairs > $PackageRoot/rendered-$namespace-$stack-deployment.yaml
+	kubetpl render $PackageRoot/k8s/$stack/$ConfigurationFilename --debug -i $namespace.env -i $infraVariables -s $KeyValuePairs > $PackageRoot/rendered-$namespace-$stack-$ConfigurationFilename
 fi
 
 #publish the rendered deployment as an artifact path and name
 echo "Publish (print) Config $ConfigurationFilename for stack $stack"
-cat $PackageRoot/rendered-$namespace-$stack-deployment.yaml
+cat $PackageRoot/rendered-$namespace-$stack-$ConfigurationFilename
 
 echo "Apply Config $ConfigurationFilename for stack $stack"
-kubectl --context=$context apply -f $PackageRoot/rendered-$namespace-$stack-deployment.yaml
+kubectl --context=$context apply -f $PackageRoot/rendered-$namespace-$stack-$ConfigurationFilename
