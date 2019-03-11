@@ -22,8 +22,7 @@ if [ "$?" = "0" ]; then
 else
 	# create
 	echo "create $namespace namespace"
-    kubetpl render $PackageRoot/environments/namespace.yaml -s NAMESPACE=$namespace | cat -
-    kubetpl render $PackageRoot/environments/namespace.yaml -s NAMESPACE=$namespace | kubectl --context=$context create -f -
+    kubectl create namesapce $namesapce
 fi
 
 echo "Check registry secret exists in $namespace"
